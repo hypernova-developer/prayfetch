@@ -11,3 +11,6 @@ endif()
 add_executable(prayfetch 
     src/main.cpp
 )
+
+install(TARGETS prayfetch DESTINATION /usr/local/bin)
+install(FILES prayfetch.conf DESTINATION /etc)
