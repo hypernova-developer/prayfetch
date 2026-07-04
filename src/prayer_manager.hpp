@@ -3,9 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
+#include <sstream>
 
 namespace prayfetch
 {
@@ -17,27 +15,39 @@ namespace prayfetch
     class PrayerManager
     {
     public:
-        bool get_today_times(const std::string& json_path, const std::string& date_key, PrayerTimes& out_times)
+        bool get_today_times(const std::string& txt_path, const std::string& date_key, PrayerTimes& out_times)
         {
-            std::ifstream file(json_path);
+            std::ifstream file(txt_path);
             if (!file.is_open())
             {
                 return false;
             }
 
-            json cache_json;
-            file >> cache_json;
-
-            if (cache_json.contains("data") && cache_json["data"].contains(date_key))
+            std::string line;
+            while (std::getline(file, line))
             {
-                auto day_data = cache_json["data"][date_key];
-                out_times.imsak  = day_data.value("imsak", "00:00");
-                out_times.gunes  = day_data.value("gunes", "00:00");
-                out_times.ogle   = day_data.value("ogle", "00:00");
-                out_times.ikindi = day_data.value("ikindi", "00:00");
-                out_times.aksam  = day_data.value("aksam", "00:00");
-                out_times.yatsi  = day_data.value("yatsi", "00:00");
-                return true;
+                if (line.rfind(date_key, 0) == 0)
+                {
+                    std::stringstream ss(line);
+                    std::string token;
+                    std::vector<std::string> tokens;
+                    
+                    while (std::getline(ss, token, ':'))
+                    {
+                        tokens.push_back(token);
+                    }
+
+                    if (tokens.size() >= 7)
+                    {
+                        out_times.imsak = tokens[1] + ":" + tokens[2];
+                        out_times.gunes = tokens[3] + ":" + tokens[4];
+                        out_times.ogle = tokens[5] + ":" + tokens[6];
+                        out_times.ikindi = tokens[7] + ":" + tokens[8];
+                        out_times.aksam = tokens[9] + ":" + tokens[10];
+                        out_times.yatsi = tokens[11] + ":" + tokens[12];
+                        return true;
+                    }
+                }
             }
             return false;
         }
