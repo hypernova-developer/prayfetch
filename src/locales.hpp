@@ -23,22 +23,22 @@ namespace prayfetch
             {
                 "Konum: ",
                 "Mevcut Vakit: ",
-                "Uyarı: Şu an kerahat vaktidir! Namaz kılmak mekruhtur.",
+                "⚠️  Uyarı: Şu an kerahat vaktidir! Namaz kılmak mekruhtur.",
                 "Dini Durum: Namaz kılmak için uygun vakit.",
                 "Kalan Süre: ",
                 "Sıradaki Vakit: ",
-                "Ayet: "
+                "📖 Ayet: "
             }
         },
         {Lang::EN, 
             {
                 "Location: ",
                 "Current Time: ",
-                "Warning: It is Karahat time! Solat is disliked right now.",
+                "⚠️  Warning: It is Karahat time! Solat is disliked right now.",
                 "Spiritual Status: Suitable time for solat.",
                 "Remaining: ",
                 "Next Vakit: ",
-                "Verse: "
+                "📖 Verse: "
             }
         }
     };
