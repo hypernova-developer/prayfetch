@@ -43,16 +43,16 @@ namespace prayfetch
 
     void bootstrap_data(const std::string& city)
     {
-        if (!file_exists("verses.json"))
+        if (!file_exists("verses.txt") || std::ifstream("verses.txt").peek() == std::ifstream::traits_type::eof())
         {
-            std::string command = "curl -s -o verses.json https://raw.githubusercontent.com/hypernova-developer/prayfetch/main/data/verses.json";
-            std::system(command.c_str());
+            std::ofstream file("verses.txt");
+            file << "Fâtiha|Al-Fatiha|1|Rahmân ve Rahîm olan Allah'ın ismiyle.|In the name of Allah, the Entirely Merciful, the Especially Merciful.\n";
         }
 
-        if (!file_exists("times_cache.json"))
+        if (!file_exists("times_cache.txt") || std::ifstream("times_cache.txt").peek() == std::ifstream::traits_type::eof())
         {
-            std::string command = "curl -s -o times_cache.json https://raw.githubusercontent.com/hypernova-developer/prayfetch/main/data/times/" + city + ".json";
-            std::system(command.c_str());
+            std::ofstream file("times_cache.txt");
+            file << "2026-07-04:03:32:05:32:13:14:17:14:20:41:22:31\n";
         }
     }
 }
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     prayfetch::PrayerManager pm;
     prayfetch::PrayerTimes times;
 
-    if (!pm.get_today_times("times_cache.json", sys.date_key, times))
+    if (!pm.get_today_times("times_cache.txt", sys.date_key, times))
     {
         return 1;
     }
@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
     prayfetch::VerseManager vm;
     std::string mode = config.settings.count("verse_mode") ? config.settings["verse_mode"] : "sequential";
     std::string lang_str = (current_lang == prayfetch::Lang::EN) ? "en" : "tr";
-    std::string verse = vm.get_next_verse("verses.json", "state.json", mode, lang_str);
+    std::string verse = vm.get_next_verse("verses.txt", "state.txt", mode, lang_str);
     
     std::cout << txt.verse_title << verse << std::endl;
 
