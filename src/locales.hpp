@@ -27,7 +27,7 @@ namespace prayfetch
                 "Dini Durum: Namaz kılmak için uygun vakit.",
                 "Kalan Süre: ",
                 "Sıradaki Vakit: ",
-                "📖 Ayet: "
+                "Ayet: "
             }
         },
         {Lang::EN, 
@@ -38,7 +38,7 @@ namespace prayfetch
                 "Spiritual Status: Suitable time for solat.",
                 "Remaining: ",
                 "Next Vakit: ",
-                "📖 Verse: "
+                "Verse: "
             }
         }
     };
